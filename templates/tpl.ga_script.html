@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '{ACCOUNT_ID}'], <!-- BEGIN anonymize_ip -->['_gat._anonymizeIp'], <!-- END anonymize_ip -->['_trackPageview']);
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    <!-- BEGIN track_downloads -->
+    function recordLinkManually(link, category, object) {
+		try {
+            var pageTracker = _gat._getTracker('{ACCOUNT_ID_DOWNLOAD}');
+            pageTracker._trackEvent(category, object.textContent, object.href);
+        } catch (err) { }
+    }
+	$('a[href*=_download],a[href*=cmd\\=sendfile]').bind('click', function () { recordLinkManually(this, 'Download', this); });
+    <!-- END track_downloads -->
+</script>
