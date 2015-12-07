@@ -1,4 +1,4 @@
-# ILIAS GoogleAnalytics Plugin
+# ILIAS Google Analytics Plugin
 
 Tracks page views with Google Analytics by injecting the Google Analytics code at the end of the page.
 
