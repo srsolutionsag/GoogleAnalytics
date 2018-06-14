@@ -12,7 +12,6 @@ $ilias_min_version = "4.2.0";
 $ilias_max_version = "5.99.999";
  
 // optional, but useful: Add one or more responsible persons and a contact email
-$responsible = "Stefan Born";
-$responsible_mail = "stefan.born@phzh.ch";
- 
+$responsible = "studer raimann ag";
+$responsible_mail = "support@studer-raimann.ch";
 ?>
