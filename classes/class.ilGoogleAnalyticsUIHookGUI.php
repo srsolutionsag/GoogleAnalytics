@@ -8,13 +8,14 @@ include_once("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
  * User interface hook test class.
  *
  * Enter description here ...
- * @author Stefan Born <stefan.born@phzh.ch>
+ *
+ * @author  Stefan Born <stefan.born@phzh.ch>
  * @version
  *
  * @ingroup ServicesUIComponent
  */
-class ilGoogleAnalyticsUIHookGUI extends ilUIHookPluginGUI
-{
+class ilGoogleAnalyticsUIHookGUI extends ilUIHookPluginGUI {
+
 	/**
 	 * Modify HTML output of GUI elements. Modifications modes are:
 	 * - ilUIHookPluginGUI::KEEP (No modification)
@@ -24,59 +25,58 @@ class ilGoogleAnalyticsUIHookGUI extends ilUIHookPluginGUI
 	 *
 	 * @param string $a_comp component
 	 * @param string $a_part string that identifies the part of the UI that is handled
-	 * @param string $a_par array of parameters (depend on $a_comp and $a_part)
+	 * @param string $a_par  array of parameters (depend on $a_comp and $a_part)
 	 *
 	 * @return array array with entries "mode" => modification mode, "html" => your html
 	 */
-	function getHTML($a_comp, $a_part, $a_par = array())
-	{
-		global $ilCtrl, $ilUser;
-		
+	function getHTML($a_comp, $a_part, $a_par = array()) {
+		global $DIC;
+
 		// loading a template and this is NOT an async call?
-		if ($a_part == "template_load" && !$ilCtrl->isAsynch())
-		{
+		if ($a_part == "template_load" && !$DIC->ctrl()->isAsynch()) {
 			// is main template?
-			if (strtolower($a_par['tpl_id']) == "tpl.main.html")
-			{
+			if (strtolower($a_par['tpl_id']) == "tpl.main.html") {
+				/**
+				 * @var $plugin_object ilGoogleAnalyticsPlugin
+				 */
+				$plugin_object = $this->plugin_object;
 				// get the account information
-				$account_id = $this->plugin_object->getAccountId();
-				$anonymize_ip = $this->plugin_object->getAnonymizeIp();
-				$track_downloads = $this->plugin_object->getTrackDownloads();
-				
+				$account_id = $plugin_object->getAccountId();
+				$anonymize_ip = $plugin_object->getAnonymizeIp();
+				$track_downloads = $plugin_object->getTrackDownloads();
+
 				// only proceed if account id is set!
-				if ($account_id != null)
-				{
-					
+				if ($account_id != NULL) {
+
 					$html = $a_par['html'];
-					$index = strripos($html, "</body>", -7);
-					if ($index !== false)
-					{
-						$tmpl = $this->plugin_object->getTemplate("tpl.ga_script.html", true, true);
+					$index = strripos($html, "</body>", - 7);
+					if ($index !== false) {
+						$tmpl = $plugin_object->getTemplate("tpl.ga_script.html", true, true);
 						$tmpl->setVariable("ACCOUNT_ID", $account_id);
-						
+
 						// anonymize?
-						if ($anonymize_ip)
-						{
+						if ($anonymize_ip) {
 							$tmpl->touchBlock("anonymize_ip");
 						}
-						
+
 						// track downloads?
-						if ($track_downloads)
-						{
-							$tmpl->setCurrentBlock("track_downloads");	
+						if ($track_downloads) {
+							$tmpl->setCurrentBlock("track_downloads");
 							$tmpl->setVariable("ACCOUNT_ID_DOWNLOAD", $account_id);
-							$tmpl->parseCurrentBlock();	
+							$tmpl->parseCurrentBlock();
 						}
-					
+
 						// insert code
 						$html = substr($html, 0, $index) . $tmpl->get() . substr($html, $index);
-						return array("mode" => ilUIHookPluginGUI::REPLACE, "html" => $html);
+
+						return array( "mode" => ilUIHookPluginGUI::REPLACE, "html" => $html );
 					}
 				}
 			}
 		}
-		
-		return array("mode" => ilUIHookPluginGUI::KEEP, "html" => "");
+
+		return array( "mode" => ilUIHookPluginGUI::KEEP, "html" => "" );
 	}
 }
+
 ?>
