@@ -1,101 +1,105 @@
 <?php
- 
+
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
- 
+
 /**
  * Example user interface plugin
- * 
+ *
  * @author Stefan Born <stefan.born@phzh.ch>
  *
  */
-class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI
-{
+class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI {
+
 	/**
 	 * Handles all commmands, default is 'configure'
 	 *
 	 * @access public
 	 */
-	function performCommand($cmd)
-	{		
-		switch ($cmd)
-		{
+	public function performCommand($cmd) {
+		switch ($cmd) {
 			case 'configure':
 			case 'save':
 				$this->$cmd();
 				break;
 		}
 	}
-	
+
+
 	/**
 	 * Configure screen
 	 *
 	 * @access public
 	 */
-	public function configure()
-	{
-		global $tpl, $ilDB;
+	public function configure() {
+		global $DIC;
 
+		/**
+		 * @var $plugin ilGoogleAnalyticsPlugin
+		 */
 		$plugin = $this->getPluginObject();
 		$form = $this->initConfigurationForm($plugin);
-		
+
 		// get binary
 		$account_id = $plugin->getAccountId();
-		if ($account_id == null)
+		if ($account_id == NULL) {
 			ilUtil::sendFailure($plugin->txt("warning_no_account_id"));
-		
+		}
+
 		// set all plugin settings values
 		$val = array();
 		$val["account_id"] = $account_id;
 		$val["anonymize_ip"] = $plugin->getAnonymizeIp();
 		$val["track_downloads"] = $plugin->getTrackDownloads();
 		$form->setValuesByArray($val);
-		
-		$tpl->setContent($form->getHTML());
+
+		$DIC->ui()->mainTemplate()->setContent($form->getHTML());
 	}
-	
+
+
 	/**
 	 * Save form input
 	 *
 	 */
-	public function save()
-	{
-		global $tpl, $lng, $ilCtrl, $ilDB;
-		
-		$plugin = $this->getPluginObject();		
+	public function save() {
+		global $DIC;
+
+		/**
+		 * @var $plugin ilGoogleAnalyticsPlugin
+		 */
+		$plugin = $this->getPluginObject();
 		$form = $this->initConfigurationForm($plugin);
-		
-		if ($form->checkInput())
-		{
+
+		if ($form->checkInput()) {
 			$plugin->setAccountId($_POST["account_id"]);
 			$plugin->setAnonymizeIp($_POST["anonymize_ip"]);
 			$plugin->setTrackDownloads($_POST["track_downloads"]);
 
-			ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
-			$ilCtrl->redirect($this, "configure");
-		}
-		else
-		{
+			ilUtil::sendSuccess($DIC->language()->txt("saved_successfully"), true);
+			$DIC->ctrl()->redirect($this, "configure");
+		} else {
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHtml());
+			$DIC->ui()->mainTemplate()->setContent($form->getHtml());
 		}
-	}	
-	
+	}
+
+
 	/**
 	 * Init configuration form.
+	 *
+	 * @param $plugin ilGoogleAnalyticsPlugin
 	 *
 	 * @return object form object
 	 * @access public
 	 */
-	private function initConfigurationForm($plugin)
-	{
-		global $lng, $ilCtrl;
-		
+	private function initConfigurationForm($plugin) {
+		global $DIC;
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTableWidth("100%");
 		$form->setTitle($plugin->txt("plugin_configuration"));
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		
+		$form->setFormAction($DIC->ctrl()->getFormAction($this));
+
 		// account id
 		$input = new ilTextInputGUI($plugin->txt("account_id"), "account_id");
 		$input->setRequired(true);
@@ -117,10 +121,10 @@ class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI
 		$input->setInfo($plugin->txt("track_downloads_info"));
 		$form->addItem($input);
 
-		$form->addCommandButton("save", $lng->txt("save"));
-		
+		$form->addCommandButton("save", $DIC->language()->txt("save"));
+
 		return $form;
 	}
 }
- 
+
 ?>
