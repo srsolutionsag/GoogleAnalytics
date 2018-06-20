@@ -36,7 +36,7 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin {
 	 *
 	 * @return string The name of the plugin.
 	 */
-	function getPluginName() {
+	public function getPluginName() {
 		return "GoogleAnalytics";
 	}
 

@@ -15,7 +15,7 @@ class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI {
 	 *
 	 * @access public
 	 */
-	function performCommand($cmd) {
+	public function performCommand($cmd) {
 		switch ($cmd) {
 			case 'configure':
 			case 'save':
@@ -52,7 +52,7 @@ class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI {
 		$val["track_downloads"] = $plugin->getTrackDownloads();
 		$form->setValuesByArray($val);
 
-		$DIC['tpl']->setContent($form->getHTML());
+		$DIC->ui()->mainTemplate()->setContent($form->getHTML());
 	}
 
 
@@ -78,7 +78,7 @@ class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI {
 			$DIC->ctrl()->redirect($this, "configure");
 		} else {
 			$form->setValuesByPost();
-			$DIC['tpl']->setContent($form->getHtml());
+			$DIC->ui()->mainTemplate()->setContent($form->getHtml());
 		}
 	}
 
