@@ -7,3 +7,8 @@ anonymize_ip#:#Anonymize IP
 anonymize_ip_info#:#Tells Google Analytics to anonymize the information sent by the tracker objects by removing the last octet of the IP address prior to its storage. Note that this will slightly reduce the accuracy of geographic reporting.
 track_downloads#:#Track Downloads
 track_downloads_info#:#If enabled downloads are tracked as events in Google Analytics. Otherwise, download links are not tracked.
+use_tag_manager#:#Use TagManager
+use_tag_manager_info#:#Enables the utilization of Google TagManager
+container_id#:#Container-Id
+container_id_info#:#Id of the tag-container, also known as tracking-code (e.g. 'GTM-XXXX').
+warning_no_container_id#:#A valid Container ID is required to utilize Google TagManager.

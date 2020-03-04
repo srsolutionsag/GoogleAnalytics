@@ -17,6 +17,8 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin {
 	private $account_id = NULL;
 	private $anonymize_ip = false;
 	private $track_downloads = false;
+	private $use_tag_manager = false;
+	private $container_id = NULL;
 
 
 	/**
@@ -28,6 +30,8 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin {
 		$this->account_id = $this->settings->get("account_id", NULL);
 		$this->anonymize_ip = $this->settings->get("anonymize_ip", false) == true;
 		$this->track_downloads = $this->settings->get("track_downloads", false) == true;
+		$this->use_tag_manager = $this->settings->get("use_tag_manager", false) == true;
+        $this->container_id = $this->settings->get("container_id", NULL);
 	}
 
 
@@ -49,6 +53,8 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin {
 		$this->setAccountId($this->getAccountId());
 		$this->setAnonymizeIp($this->getAnonymizeIp());
 		$this->setTrackDownloads($this->getTrackDownloads());
+		$this->setUseTagManager($this->getUseTagManager());
+        $this->setContainerId($this->getContainerId());
 	}
 
 
@@ -113,6 +119,48 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin {
 	public function getTrackDownloads() {
 		return $this->track_downloads;
 	}
+
+
+    /**
+     * Sets whether the google tag manager should be used.
+     *
+     * @param int $a_value The new value
+     */
+    public function setUseTagManager($a_value) {
+        $this->use_tag_manager = $a_value == true;
+        $this->settings->set('use_tag_manager', $this->use_tag_manager);
+    }
+
+
+    /**
+     * Gets whether the google tag manager should be used.
+     *
+     * @return int The current value
+     */
+    public function getUseTagManager() {
+        return $this->use_tag_manager;
+    }
+
+
+    /**
+     * Sets the google tag manager container id.
+     *
+     * @param int $a_value The new value
+     */
+    public function setContainerId($a_value) {
+        $this->container_id = strlen($a_value) > 0 ? $a_value : NULL;
+        $this->settings->set('container_id', $this->container_id);
+    }
+
+
+    /**
+     * Gets the google tag manager container id.
+     *
+     * @return int The current value
+     */
+    public function getContainerId() {
+        return $this->container_id;
+    }
 }
 
 ?>
