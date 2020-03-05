@@ -69,6 +69,56 @@ class ilGoogleAnalyticsUIHookGUI extends ilUIHookPluginGUI {
 						// insert code
 						$html = substr($html, 0, $index) . $tmpl->get() . substr($html, $index);
 
+                        // get the tag manager information
+                        $use_tag_manager = $plugin_object->getUseTagManager();
+                        $container_id = $plugin_object->getContainerId();
+
+                        // only add gtm-snippets if the tag manager should be used and the container id is set!
+                        if($use_tag_manager AND $container_id != NULL) {
+
+                            $index_gtm_script = strripos($html, "<head>", -6);
+                            if ($index_gtm_script !== false) {
+
+                                $tmpl_gtm_script = $plugin_object->getTemplate(
+                                    "tpl.gtm_script.html",
+                                    true,
+                                    true
+                                );
+                                $tmpl_gtm_script->setVariable("CONTAINER_ID", $container_id);
+
+                                // insert google tag manager script code
+                                $html = substr($html, 0, $index_gtm_script+6)
+                                    . $tmpl_gtm_script->get()
+                                    . substr($html, $index_gtm_script+6);
+                            }
+
+                            $opening_body_tag = NULL;
+                            preg_match("<body.*>", $html, $opening_body_tag);
+                            if($opening_body_tag != NULL) {
+                                $length_body_tag = strlen($opening_body_tag[0]);
+                                $index_gtm_noscript = strripos(
+                                    $html,
+                                    $opening_body_tag[0],
+                                    -$length_body_tag
+                                );
+
+                                if ($index_gtm_noscript !== false) {
+
+                                    $tmpl_gtm_noscript = $plugin_object->getTemplate(
+                                        "tpl.gtm_noscript.html",
+                                        true,
+                                        true
+                                    );
+                                    $tmpl_gtm_noscript->setVariable("CONTAINER_ID", $container_id);
+
+                                    // insert google tag manager no-script code
+                                    $html = substr($html, 0, $index_gtm_noscript+$length_body_tag)
+                                        . $tmpl_gtm_noscript->get()
+                                        . substr($html, $index_gtm_noscript+$length_body_tag);
+                                }
+                            }
+                        }
+
 						return array( "mode" => ilUIHookPluginGUI::REPLACE, "html" => $html );
 					}
 				}
