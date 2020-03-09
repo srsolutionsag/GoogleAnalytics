@@ -7,8 +7,8 @@ anonymize_ip#:#IP anonimizálása
 anonymize_ip_info#:#Google Analytics úgy anonimizálja a nyomon követett objektumok által küldött információt, hogy tárolás előtt eltávolítja az IP cím utolsó oktettjét. Ez kissé csökkenti a földrajzi adatok pontosságát.
 track_downloads#:#Letöltések nyomon követése
 track_downloads_info#:#Ha be van kapcsolva, a letöltéseket eseményként nyomon követi a Google Analytics. Különben a letöltéseknek nincs nyomkövetése.
-use_tag_manager#:#Use TagManager
-use_tag_manager_info#:#Enables the utilization of Google TagManager
-container_id#:#Container-Id
-container_id_info#:#Id of the tag-container, also known as tracking-code (e.g. 'GTM-XXXX').
-warning_no_container_id#:#A valid Container ID is required to utilize Google TagManager.
+use_tag_manager#:#Címkekezelő használata
+use_tag_manager_info#:#Google Címkekezelő használatának bekapcsolása
+container_id#:#Tárolóazonosító
+container_id_info#:#A Címkekezelő Tárolóazonosítója (például 'GTM-XXXX').
+warning_no_container_id#:#A Google Címkekezelő használatához egy érvényes Tárolóazonosító szükséges.
