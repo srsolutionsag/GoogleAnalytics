@@ -130,5 +130,3 @@ class ilGoogleAnalyticsUIHookGUI extends ilUIHookPluginGUI
         return ["mode" => ilUIHookPluginGUI::KEEP, "html" => ""];
     }
 }
-
-?>

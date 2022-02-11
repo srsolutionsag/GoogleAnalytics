@@ -151,5 +151,3 @@ class ilGoogleAnalyticsConfigGUI extends ilPluginConfigGUI
         return $form;
     }
 }
-
-?>

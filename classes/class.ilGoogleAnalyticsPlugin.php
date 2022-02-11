@@ -163,5 +163,3 @@ class ilGoogleAnalyticsPlugin extends ilUserInterfaceHookPlugin
         return $this->container_id;
     }
 }
-
-?>
